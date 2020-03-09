@@ -46,7 +46,23 @@ def entity(text, categories):
 
 def trainData(df, categories):
     #Create training data. Be sure your csv has a 'text' Serie
-    training_data = []
-    for i in df['text'][:200].tolist():
-        training_data.append(entity(i, categories))
-    return training_data
+    
+    #Select 20% of the dataset if it's higher than 1000
+    length = length=df.shape
+    if length[0] > 1000:
+        sample = round(length[0]*0.2)
+        df= df[:sample]
+    
+        #Create training_data with text and entities
+        training_data = []
+        for i in df['text'].tolist():
+            training_data.append(entity(i, categories))
+        return training_data
+    
+    
+    #Select 200 rows of the dataset if it's smaller than 1000
+    else:
+        training_data = []
+        for i in df['text'][:200].tolist():
+            training_data.append(entity(i, categories))
+        return training_data
