@@ -13,7 +13,7 @@ def dataReady(pathcsv,pathcategories):
     #From pkl file to categories dictionary
     categories = pkltodict(pathcategories)
 
-    #Trained the model 
+    #Trained model 
     training = train.trainData(df, categories)
 
     #Predicted df to csv
@@ -21,6 +21,10 @@ def dataReady(pathcsv,pathcategories):
 
     #Graph
     dffinal = pd.read_csv('predicted.csv')
+    p = sns.countplot(data=dffinal, x = 'category')
+    plt.savefig('barcategories')
+
+    #PDF 
     
     return 
 

@@ -17,8 +17,7 @@ pdf.cell(10, 10, 'Total of tweets', 'C')
 #Set graph
 pdf.set_font('Arial', '', 14)
 pdf.cell(0, 100, 'Categories distribution', 'C')
+pdf.image('../barcategories.png', 20, 100, h=120)
 
-
-#pdf.image('graph.png')
 
 pdf.output('report2.pdf', 'F')
