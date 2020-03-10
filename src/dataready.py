@@ -1,19 +1,31 @@
 import pandas as pd
 import src.train as train
 import spacy
+import pickle
 
-def dataReady(pathcsv):
+def dataReady(pathcsv,pathcategories):
     #From csv to id and text series DataFrame
     df = pd.read_csv(pathcsv)
     df = df[['id', 'text']]
-    return df
 
-def dtocsv(dictionary):
-    #From dictionary to csv
-    with open('data.csv', 'w') as f:
-        for key in dictionary.keys():
-            f.write("%s, %s\n" % (key, dictionary[key]))
+    #From pkl file to categories dictionary
+    categories = pkltodict(pathcategories)
 
+    #Trained the model 
+    training = train.trainData(df, categories)
+    return 
+
+def dicttopkl(dictionary):
+    #From dictionary to pkl
+    output = open('myfile.pkl', 'wb')
+    pickle.dump(dictionary, output)
+    output.close()
+
+def pkltodict(pkl):
+    pkl_file = open('myfile.pkl', 'rb')
+    mydict = pickle.load(pkl_file)
+    pkl_file.close()
+    return mydict
 
 def categoryColumn(path, df):
     #Predict category while iterate through text serie and save the final DataFrame 

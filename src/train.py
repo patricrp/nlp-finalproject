@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import re
+import englishspacymodel as eng
 
 
 def localize(pattern, text):
@@ -48,16 +49,16 @@ def trainData(df, categories):
     #Create training data. Be sure your csv has a 'text' Serie
     
     #Select 20% of the dataset if it's higher than 1000
-    length = length=df.shape
+    length = df.shape
     if length[0] > 1000:
-        sample = round(length[0]*0.2)
+        sample = round(length[0]*0.1)
         df= df[:sample]
     
         #Create training_data with text and entities
         training_data = []
         for i in df['text'].tolist():
             training_data.append(entity(i, categories))
-        return training_data
+        return eng.main(training_data, None, './output/movies', 100)
     
     
     #Select 200 rows of the dataset if it's smaller than 1000
@@ -65,4 +66,4 @@ def trainData(df, categories):
         training_data = []
         for i in df['text'][:200].tolist():
             training_data.append(entity(i, categories))
-        return training_data
+        return eng.main(training_data, None, './output/movies', 100)
