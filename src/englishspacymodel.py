@@ -83,7 +83,6 @@ def main(model=None, output_dir=None, n_iter=100):
             print("Entities", [(ent.text, ent.label_) for ent in doc.ents])
             print("Tokens", [(t.text, t.ent_type_, t.ent_iob) for t in doc])
 
-main(output_dir=path)
 
 if __name__ == "__main__":
     pass
