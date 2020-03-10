@@ -2,6 +2,8 @@ import pandas as pd
 import src.train as train
 import spacy
 import pickle
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 def dataReady(pathcsv,pathcategories):
     #From csv to id and text series DataFrame
@@ -13,6 +15,13 @@ def dataReady(pathcsv,pathcategories):
 
     #Trained the model 
     training = train.trainData(df, categories)
+
+    #Predicted df to csv
+    dffinal = categoryColumn('./output/movies', df)
+
+    #Graph
+    dffinal = pd.read_csv('predicted.csv')
+    
     return 
 
 def dicttopkl(dictionary):
