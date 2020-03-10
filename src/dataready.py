@@ -16,6 +16,7 @@ def dtocsv(dictionary):
 
 
 def categoryColumn(path, df):
+    #Predict category while iterate through text serie and save the final DataFrame 
     nlp = spacy.load(path)
 
     for index, row in df.iterrows():
@@ -23,4 +24,4 @@ def categoryColumn(path, df):
         for ent in doc.ents:
             df.loc[index, 'category'] = [(ent.label_)]
     
-    return df.to_csv(path)
+    return df.to_csv('predicted.csv')
