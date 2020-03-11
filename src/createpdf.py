@@ -18,12 +18,15 @@ pdf.set_font('Arial', '', 14)
 volume = 1000
 percentage = 20
 #volume, percentage = dr.volumeCategories('../predicted.csv')
-pdf.cell(190, 10, f'Total of tweets {volume}\n Percentage of tweets classificated {percentage}%', 'C')
+pdf.cell(95, 10, f'Total of tweets {volume}')
+
+pdf.set_font('Arial', '', 14)
+pdf.cell(95, 10, f'Percentage of tweets classificated {percentage}%')
 
 
 #Set graph
-pdf.set_font('Arial', '', 14)
-pdf.cell(15, 150, 'Categories distribution', 'C')
+pdf.set_font('Arial', '', 16)
+pdf.cell(190, 100, 'Categories distribution')
 #pdf.image('../output/barcategories.png', 20, 110, h=90)
 
 

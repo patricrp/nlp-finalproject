@@ -28,8 +28,8 @@ def categoryColumn(path, df):
         doc = nlp(row['text'])
         for ent in doc.ents:
             df.loc[index, 'category'] = [(ent.label_)]
-    
-    return df.to_csv('../output/predicted.csv')
+    df.to_csv('../output/predicted.csv')
+    print('Your predicted csv is in the output folder')
 
 
 def volumeCategories(pathcsv):
@@ -53,10 +53,10 @@ def dataReady(pathcsv,pathcategories):
     training = tr.trainData(df, categories)
 
     #Predicted df to csv applying the trained model
-    dffinal = categoryColumn('./output/model', df) 
+    categoryColumn('../output/model', df) #si esta función no tiene return, puedo llamarla sin más aquí, ¿no?
 
     #Graph of categories
-    dffinal = pd.read_csv('predicted.csv') 
+    dffinal = pd.read_csv('../output/predicted.csv') 
     graph = sns.countplot(data=dffinal, x = 'category')
     plt.xticks(rotation=45)
     plt.savefig('../output/barcategories') 
