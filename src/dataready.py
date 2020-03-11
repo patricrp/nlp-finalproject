@@ -1,5 +1,5 @@
 import pandas as pd
-import src.train as train
+import train as train
 import spacy
 import pickle
 import matplotlib.pyplot as plt
@@ -17,16 +17,20 @@ def dataReady(pathcsv,pathcategories):
     training = train.trainData(df, categories)
 
     #Predicted df to csv
-    dffinal = categoryColumn('./output/movies', df)
+    dffinal = categoryColumn('./output/model', df) 
 
     #Graph
-    dffinal = pd.read_csv('predicted.csv')
-    p = sns.countplot(data=dffinal, x = 'category')
-    plt.savefig('barcategories')
+    dffinal = pd.read_csv('predicted.csv') 
+    graph = sns.countplot(data=dffinal, x = 'category')
+    plt.xticks(rotation=45)
+    plt.savefig('../output/barcategories') 
 
     #PDF 
-    
-    return 
+    #incluir la función que llame a createpdf
+
+    print('PDF in...') 
+
+
 
 def dicttopkl(dictionary):
     #From dictionary to pkl
@@ -49,4 +53,11 @@ def categoryColumn(path, df):
         for ent in doc.ents:
             df.loc[index, 'category'] = [(ent.label_)]
     
-    return df.to_csv('predicted.csv')
+    return df.to_csv('../output/predicted.csv')
+
+
+def volumeCategories(pathcsv):
+    df = pd.read_csv(pathcsv)
+    volume = df['text'].count()
+    percentage = df['category'].count()/df['text'].count()
+    return volume, percentage

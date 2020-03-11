@@ -58,7 +58,7 @@ def trainData(df, categories):
         training_data = []
         for i in df['text'].tolist():
             training_data.append(entity(i, categories))
-        return eng.main(training_data, None, './output/movies', 100)
+        return eng.main(training_data, None, './output/model', 100) #Se puede cambiar este nombre?
     
     
     #Select 200 rows of the dataset if it's smaller than 1000
@@ -66,4 +66,4 @@ def trainData(df, categories):
         training_data = []
         for i in df['text'][:200].tolist():
             training_data.append(entity(i, categories))
-        return eng.main(training_data, None, './output/movies', 100)
+        return eng.main(training_data, None, './output/model', 100)
