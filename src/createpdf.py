@@ -1,7 +1,6 @@
 import pandas as pd
 from fpdf import FPDF 
-
-#import funconstructor as fc
+import funconstructor as fc
 
 
 pdf = FPDF('P', 'mm', 'A4')

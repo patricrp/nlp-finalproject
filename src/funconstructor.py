@@ -1,5 +1,5 @@
 import pandas as pd
-import src.train as tr
+import train as tr
 import spacy
 import pickle
 import matplotlib.pyplot as plt
@@ -15,7 +15,7 @@ def dicttopkl(dictionary):
 
 def pkltodict(pkl_file):
     #From pkl to dictionary
-    pkl_file = open('myfile.pkl', 'rb')
+    pkl_file = open('../myfile.pkl', 'rb')
     mydict = pickle.load(pkl_file)
     pkl_file.close()
     return mydict
@@ -51,17 +51,22 @@ def dataReady(pathcsv,pathcategories):
 
     #Train model with a sample from the DataFrame and the categories, generating the list of text-entities needed for the model
     training = tr.trainData(df, categories)
+    print('The model has been trained!')
+    print('Training data is ready!')
 
     #Predicted df to csv applying the trained model
-    categoryColumn('../output/model', df) #si esta función no tiene return, puedo llamarla sin más aquí, ¿no?
+    categoryColumn('../output/model', df)
+    print('Predicted results are in the output folder')
 
     #Graph of categories
     dffinal = pd.read_csv('../output/predicted.csv') 
     graph = sns.countplot(data=dffinal, x = 'category')
     plt.xticks(rotation=45)
     plt.savefig('../output/barcategories') 
+    print('The graph is done')
 
     #PDF 
     #incluir la función que llame a createpdf
 
     print('PDF in...') 
+
