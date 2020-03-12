@@ -36,7 +36,7 @@ def volumeCategories(pathcsv):
     #Two metrics from the DataFrame to incorporate  to the PDF
     df = pd.read_csv(pathcsv)
     volume = df['text'].count()
-    percentage = df['category'].count()/df['text'].count()
+    percentage = round((df['category'].count()/df['text'].count()) * 100)
     return volume, percentage
 
 

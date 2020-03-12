@@ -45,7 +45,7 @@ class Classifier():
 
         self.button3 = Button(self.frame3, text='Analyze it!', font=('Roboto', 12))
         self.button3.place(relx=0, relheight=1, relwidth=1)
-        self.button3.configure(activebackground='black', foreground='black', bg='black', relief='sunken', command=classify)
+        self.button3.configure(activebackground='black', foreground='black', bg='black', relief='raised', command=classify)
 
 
 
