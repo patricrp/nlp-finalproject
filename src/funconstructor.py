@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import pickle
 import graphs as gp
+import createpdf as cpdf
 
 
 def dicttopkl(dictionary):
@@ -64,9 +65,10 @@ def dataReady(pathcsv,pathcategories):
     gp.graphCategory(dffinal)
     gp.graphSentiment(dffinal)
     gp.graphSentCat(dffinal)
+    print('Graphs ready')
 
     #PDF 
-    #incluir la función que llame a createpdf
+    cpdf.newPDF()
 
-    print('PDF in...') 
+    print('The model, graphs and report are in the output folder') 
 

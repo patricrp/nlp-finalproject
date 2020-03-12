@@ -61,7 +61,7 @@ def callback2():
 
 
 def classify():
-    mb.showinfo('Getting ready','Be patient while the model is training. You will find the classified csv and the report on the output folder')
+    mb.showinfo('Getting ready','Be patient while the model is training. You will find the classified csv and the report in the output folder')
     return fc.dataReady(paths[0], paths[1])
 
 c = Classifier()

@@ -4,6 +4,7 @@ from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+
 def graphCategory(df):
     #Get a category graph 
     graph = sns.countplot(data=df, x = 'category')
@@ -12,6 +13,7 @@ def graphCategory(df):
     plt.tight_layout()
     plt.savefig('../output/barcategories') 
     print('Your category graph is ready in the output folder')
+
 
 
 def graphSentiment(df):
@@ -30,7 +32,7 @@ def graphSentiment(df):
     
     plt.title('Sentiment Analysis')
     plt.tight_layout()
-    plt.savefig('../output/sentiment') 
+    plt.savefig('../output/sentimentAnalysis') 
     
     print('Your sentiment graph is ready in the output folder')
 
