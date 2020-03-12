@@ -7,6 +7,8 @@ import seaborn as sns
 
 def graphCategory(df):
     #Get a category graph 
+    plt.figure()
+    plt.subplot()
     graph = sns.countplot(data=df, x = 'category')
     plt.title('Categories distribution')
     plt.xticks(rotation=30)
@@ -26,6 +28,8 @@ def graphSentiment(df):
     labels = ['Negative', 'Neutral', 'Positive']
     explode = (0.05,0.05,0.05)
     centre_circle = plt.Circle((0,0),0.60,fc='white')
+    plt.figure()
+    plt.subplot()
     fig = plt.gcf()
     fig.gca().add_artist(centre_circle)
     plt.pie(sentiment, labels=labels, colors = colors, autopct='%1.1f%%', startangle=90, pctdistance=0.85, explode=explode)
@@ -44,6 +48,8 @@ def graphSentCat(df):
     #Get sentiment by category graph
     df_group = df.groupby('category').agg({'negative':'mean', 'neutral':'mean', 'positive':'mean'})
     colors = ['#C00202','#C6C6C6','#249B1F']
+    plt.figure()
+    plt.subplot()
     df_group.plot(colors = colors, kind='bar', stacked=True)
     plt.title('Sentiment by category')
     plt.xticks(rotation=30)
