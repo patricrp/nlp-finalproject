@@ -26,7 +26,7 @@ pdf.image('../output/barcategories.png', h=90)
 
 pdf.set_font('Arial', '', 14)
 pdf.cell(100, 10, 'Sentiment', 0, 1, 'C')
-pdf.image('../output/barcategories.png', h=90)
+pdf.image('../output/sentiment.png', h=90)
 
 
 pdf.output('../output/report.pdf', 'F')

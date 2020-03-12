@@ -5,6 +5,7 @@ import pickle
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pickle
+import graphs as gp
 
 
 def dicttopkl(dictionary):
@@ -58,14 +59,11 @@ def dataReady(pathcsv,pathcategories):
     categoryColumn('../output/model', df)
     print('Predicted results are in the output folder')
 
-    #Graph of categories
+    #Graphs
     dffinal = pd.read_csv('../output/predicted.csv') 
-    graph = sns.countplot(data=dffinal, x = 'category')
-    plt.title('Categories distribution')
-    plt.xticks(rotation=30)
-    plt.tight_layout()
-    plt.savefig('../output/barcategories') 
-    print('The graph is done')
+    gp.graphCategory(dffinal)
+    gp.graphSentiment(dffinal)
+    gp.graphSentCat(dffinal)
 
     #PDF 
     #incluir la función que llame a createpdf
