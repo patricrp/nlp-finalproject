@@ -21,7 +21,11 @@ pdf.set_font('Arial', '', 14)
 pdf.cell(95, 10, f'Percentage of tweets classificated {percentage}%')
 
 pdf.set_font('Arial', '', 14)
-pdf.cell(190, 10, 'Categories', 0, 1, 'C')
+pdf.cell(50, 10, 'Categories', 0, 1, 'C')
+pdf.image('../output/barcategories.png', h=90)
+
+pdf.set_font('Arial', '', 14)
+pdf.cell(100, 10, 'Sentiment', 0, 1, 'C')
 pdf.image('../output/barcategories.png', h=90)
 
 

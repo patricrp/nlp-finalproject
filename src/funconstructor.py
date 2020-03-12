@@ -61,7 +61,9 @@ def dataReady(pathcsv,pathcategories):
     #Graph of categories
     dffinal = pd.read_csv('../output/predicted.csv') 
     graph = sns.countplot(data=dffinal, x = 'category')
-    plt.xticks(rotation=45)
+    plt.title('Categories distribution')
+    plt.xticks(rotation=30)
+    plt.tight_layout()
     plt.savefig('../output/barcategories') 
     print('The graph is done')
 
