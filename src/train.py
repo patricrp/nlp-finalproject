@@ -51,7 +51,7 @@ def trainData(df, categories):
     #Select 20% of the dataset if it's higher than 1000
     length = df.shape
     if length[0] > 1000:
-        df= df[:300]
+        df= df[:20]
     
         #Create training_data with text and entities
         training_data = []
