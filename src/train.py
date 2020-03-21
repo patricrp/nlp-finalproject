@@ -48,7 +48,7 @@ def entity(text, categories):
 def trainData(df, categories):
     #Create training data. Be sure your csv has a 'text' Serie
     
-    #Select 20% of the dataset if it's higher than 1000
+    #Select 300 rows of the dataset if it's higher than 1000
     length = df.shape
     if length[0] > 1000:
         df= df[:300]
@@ -63,6 +63,6 @@ def trainData(df, categories):
     #Select 200 rows of the dataset if it's smaller than 1000
     else:
         training_data = []
-        for i in df['text'][:300].tolist():
+        for i in df['text'][:200].tolist():
             training_data.append(entity(i, categories))
         return eng.main(training_data, None, '../output/model', 100)
