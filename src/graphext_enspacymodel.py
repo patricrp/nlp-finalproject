@@ -1,6 +1,5 @@
-# Training additional entity types using spaCy
 from __future__ import unicode_literals, print_function
-import pickle
+
 import plac
 import random
 from pathlib import Path
@@ -8,73 +7,82 @@ import spacy
 from spacy.util import minibatch, compounding
 
 
-# New entity labels
-LABEL = ['CHARACTERS', 'TALENT', 'PLOT', 'TICKETS', 'SOUNDTRACK', 'SPECIAL EFFECTS', 'COSTUME DESIGN', 'HYPE', 'BOX OFFICE', 'REVIEWS', 'TRAILER']
+
+
 
 @plac.annotations(
     model=("Model name. Defaults to blank 'en' model.", "option", "m", str),
-    new_model_name=("New model name for model meta.", "option", "nm", str),
     output_dir=("Optional output directory", "option", "o", Path),
-    n_iter=("Number of training iterations", "option", "n", int))
-
-def main(TRAIN_DATA, model=None, new_model_name='new_model', output_dir=None, n_iter=10):
-    """Setting up the pipeline and entity recognizer, and training the new entity."""
+    n_iter=("Number of training iterations", "option", "n", int),
+)
+def main(TRAIN_DATA, model=None, output_dir=None, n_iter=100):
+    """Load the model, set up the pipeline and train the entity recognizer."""
     if model is not None:
-        nlp = spacy.load(model)  # load existing spacy model
+        nlp = spacy.load(model)  # load existing spaCy model
         print("Loaded model '%s'" % model)
     else:
-        nlp = spacy.blank('en')  # create blank Language class
+        nlp = spacy.blank("en")  # create blank Language class
         print("Created blank 'en' model")
-    if 'ner' not in nlp.pipe_names:
-        ner = nlp.create_pipe('ner')
+
+    # create the built-in pipeline components and add them to the pipeline
+    # nlp.create_pipe works for built-ins that are registered with spaCy
+    if "ner" not in nlp.pipe_names:
+        ner = nlp.create_pipe("ner")
         nlp.add_pipe(ner, last=True)
+    # otherwise, get it so we can add labels
     else:
-        ner = nlp.get_pipe('ner')
+        ner = nlp.get_pipe("ner")
 
-    for i in LABEL:
-        ner.add_label(i)   # Add new entity labels to entity recognizer
+    # add labels
+    for _, annotations in TRAIN_DATA:
+        for ent in annotations.get("entities"):
+            ner.add_label(ent[2])
 
-    if model is None:
-        optimizer = nlp.begin_training()
-    else:
-        optimizer = nlp.entity.create_optimizer()
-
-    # Get names of other pipes to disable them during training to train only NER
-    other_pipes = [pipe for pipe in nlp.pipe_names if pipe != 'ner']
+    # get names of other pipes to disable them during training
+    pipe_exceptions = ["ner", "trf_wordpiecer", "trf_tok2vec"]
+    other_pipes = [pipe for pipe in nlp.pipe_names if pipe not in pipe_exceptions]
     with nlp.disable_pipes(*other_pipes):  # only train NER
+        # reset and initialize the weights randomly – but only if we're
+        # training a new model
+        if model is None:
+            nlp.begin_training()
         for itn in range(n_iter):
             random.shuffle(TRAIN_DATA)
             losses = {}
-            batches = minibatch(TRAIN_DATA, size=compounding(4., 32., 1.001))
+            # batch up the examples using spaCy's minibatch
+            batches = minibatch(TRAIN_DATA, size=compounding(4.0, 32.0, 1.001))
             for batch in batches:
                 texts, annotations = zip(*batch)
-                nlp.update(texts, annotations, sgd=optimizer, drop=0.35,
-                           losses=losses)
-            print('Losses', losses)
+                nlp.update(
+                    texts,  # batch of texts
+                    annotations,  # batch of annotations
+                    drop=0.5,  # dropout - make it harder to memorise data
+                    losses=losses,
+                )
+            print("Losses", losses)
 
-    # Test the trained model
-    test_text = 'Gianni Infantino is the president of FIFA.'
-    doc = nlp(test_text)
-    print("Entities in '%s'" % test_text)
-    for ent in doc.ents:
-        print(ent.label_, ent.text)
+    # test the trained model
+    for text, _ in TRAIN_DATA:
+        doc = nlp(text)
+        print("Entities", [(ent.text, ent.label_) for ent in doc.ents])
+        print("Tokens", [(t.text, t.ent_type_, t.ent_iob) for t in doc])
 
-    # Save model 
+    # save model to output directory
     if output_dir is not None:
         output_dir = Path(output_dir)
         if not output_dir.exists():
             output_dir.mkdir()
-        nlp.meta['name'] = new_model_name  # rename model
         nlp.to_disk(output_dir)
         print("Saved model to", output_dir)
 
-        # Test the saved model
+        # test the saved model
         print("Loading from", output_dir)
         nlp2 = spacy.load(output_dir)
-        doc2 = nlp2(test_text)
-        for ent in doc2.ents:
-            print(ent.label_, ent.text)
+        for text, _ in TRAIN_DATA:
+            doc = nlp2(text)
+            print("Entities", [(ent.text, ent.label_) for ent in doc.ents])
+            print("Tokens", [(t.text, t.ent_type_, t.ent_iob) for t in doc])
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     pass

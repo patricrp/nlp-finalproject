@@ -5,12 +5,12 @@ import pickle
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pickle
-import graphs as gp
-import createpdf as cpdf
+import graphext_graphs as gp
+import graphext_createpdf as cpdf
 
 def pkltodict(pkl_file):
     #From pkl to dictionary
-    pkl_file = open('../myfile.pkl', 'rb')
+    pkl_file = open('graphextmyfile.pkl', 'rb')
     mydict = pickle.load(pkl_file)
     pkl_file.close()
     return mydict
@@ -65,7 +65,7 @@ def dataReady(pathcsv,pathcategories):
     print('Training data is ready!')
 
     #Predicted df to csv applying the trained model
-    categoryColumn('../output/graphextmodel', df)
+    categoryColumn('../output/modelgraphext', df)
     print('Predicted results are in the output folder')
 
     #Graphs

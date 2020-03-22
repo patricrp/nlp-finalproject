@@ -16,7 +16,7 @@ def newPDF():
     pdf.cell(0, 10, ' ', 0, 1, 'C')
 
     pdf.set_font('Arial', '', 14)
-    volume, percentage = fc.volumeCategories('../output/predicted.csv')
+    volume, percentage = fc.volumeCategories('../output/graphextpredicted.csv')
     pdf.cell(95, 10, f'Total of tweets {volume}')
 
     pdf.set_font('Arial', '', 14)
